@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dylib
+*.egg-info/
+dist/
+build/
+
+# Virtualenvs
+.venv/
+venv/
+.env
+
+# Rust
+target/
+/.idea

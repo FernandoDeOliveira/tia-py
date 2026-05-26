@@ -1,11 +1,13 @@
-//! Py03 bindings: Rust types/functions exposed to Python.
+//! PyO3 bindings: Rust types/functions exposed to Python.
 
 mod analyzer;
+mod hello;
 
 use pyo3::prelude::*;
 
-/// Register all symbols on `tia_py._native`
+/// Register all symbols on `tia_py._native`.
 pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_function(wrap_pyfunction!(hello::hello, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_class::<analyzer::Analyzer>()?;
     Ok(())

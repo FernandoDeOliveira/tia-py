@@ -1,4 +1,4 @@
-//! Native extension for tia-py (Py03)
+//! Native extension for tia-py (PyO3).
 
 mod bindings;
 

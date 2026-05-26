@@ -6,11 +6,13 @@ from __future__ import annotations
 
 from typing import Any, NoReturn
 
-__all__ = ['Analyzer', 'version', '__version__']
+__all__ = ['Analyzer', 'hello', 'version', '__version__']
 
+_NATIVE_HELLO = None
 _NATIVE_VERSION = None
 
 try:
+    from tia_py._native import hello as _NATIVE_HELLO
     from tia_py._native import version as _NATIVE_VERSION
 except ImportError:
     pass
@@ -28,6 +30,12 @@ def _missing_native() -> NoReturn:
         'maturin develop\n\n'
         'Then retry import tia_py / using Analyzer()'
     )
+
+def hello() -> str:
+    if _NATIVE_HELLO is None:
+        _missing_native()
+    return _NATIVE_HELLO()
+
 
 def version() -> str:
     if _NATIVE_VERSION is None:

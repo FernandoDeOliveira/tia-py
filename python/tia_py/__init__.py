@@ -7,7 +7,14 @@ from __future__ import annotations
 from typing import Any, NoReturn
 
 __all__ = ['Analyzer', 'version', '__version__']
-__version__ = '0.1.0'
+
+_NATIVE_VERSION = None
+
+try:
+    from tia_py._native import version as _NATIVE_VERSION
+except ImportError:
+    pass
+
 
 def _missing_native() -> NoReturn:
     raise RuntimeError(
@@ -19,11 +26,19 @@ def _missing_native() -> NoReturn:
     )
 
 def version() -> str:
-    # Will be provided by the native module in a later commit.
-    _missing_native()
+    if _NATIVE_VERSION is None:
+        _missing_native()
+    return _NATIVE_VERSION()
+
+if _NATIVE_VERSION is not None:
+    __version__: str = version()
+else:
+    __version__: str = '0.1.0'
+
 class Analyzer:
     # Will become a PyO3-exposed type in a later commit.
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         _missing_native()
+        
     def __repr__(self) -> str:
         return 'Analyzer(<native-not-built>)'

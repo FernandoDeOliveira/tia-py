@@ -11,7 +11,6 @@ def test_version_matches_package() -> None:
     assert tia_py.version() == tia_py.__version__
 
 
-def test_analyzer_requires_native() -> None:
-    with pytest.raises(RuntimeError) as exc:
-        tia_py.Analyzer()
-    assert 'native extension is not built yet' in str(exc.value)
+def test_analyzer_constructible() -> None:
+    analyzer = tia_py.Analyzer()
+    assert repr(analyzer) == 'Analyzer()'

@@ -15,6 +15,10 @@ try:
 except ImportError:
     pass
 
+try:
+    from tia_py._native import Analyzer
+except ImportError:
+    Analyzer = None
 
 def _missing_native() -> NoReturn:
     raise RuntimeError(
@@ -35,10 +39,11 @@ if _NATIVE_VERSION is not None:
 else:
     __version__: str = '0.1.0'
 
-class Analyzer:
-    # Will become a PyO3-exposed type in a later commit.
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        _missing_native()
-        
-    def __repr__(self) -> str:
-        return 'Analyzer(<native-not-built>)'
+
+if Analyzer is None:
+    class Analyzer:
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            _missing_native()
+
+        def __repr__(self) -> str:
+            return 'Analyzer(<native-not-built>)'

@@ -24,6 +24,7 @@ classifiers = [
 dev = ["pytest>=8.0"]
 
 [tool.maturin]
+features = ["extension-module"]
 python-source = "python"
 module-name = "tia_py._native"
 

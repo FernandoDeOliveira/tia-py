@@ -8,8 +8,19 @@ rust-version = "1.75"
 
 [lib]
 name = "tia_py"
-crate-type = ["cdylib"]
+# cdylib: Python extension via maturin; rlib: linkable from `cargo test` integration tests
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-pyo3 = { version = "0.23", features = ["extension-module"] }
 anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+# Optional: only linked when building the Python extension (see features below).
+pyo3 = { version = "0.23", default-features = false, optional = true }
+
+[features]
+default = []
+# Enabled by maturin (pyproject.toml). Do not enable for `cargo test` — parser tests need no libpython.
+extension-module = ["dep:pyo3", "pyo3/extension-module", "pyo3/macros"]
+
+[dev-dependencies]
+serde_json = "1"
